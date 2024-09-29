@@ -1,0 +1,2 @@
+langchain[standard]
+astor==0.8.1
