@@ -1,2 +1,5 @@
 langchain[standard]
 astor==0.8.1
+python-dotenv
+langgraph
+langchain-openai
