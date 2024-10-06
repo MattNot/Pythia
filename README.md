@@ -1,6 +1,6 @@
 # Pythia
 
-Pythia is a tool designed to automatically generate docstrings for Python files using the power of large language models (LLMs). By analyzing your Python code, Pythia Suggest creates detailed and accurate documentation for functions and classes, making your code more understandable and maintainable.
+[Pythia](https://en.wikipedia.org/wiki/Pythia) is a tool designed to automatically generate docstrings for Python files using the power of large language models (LLMs). By analyzing your Python code, Pythia Suggest creates detailed and accurate documentation for functions and classes, making your code more understandable and maintainable.
 
 ## Features
 
