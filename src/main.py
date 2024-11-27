@@ -1,13 +1,13 @@
 import ast
 import astor
 import os
+from graph import PythonDocstringGenerator
 
 
-def add_placeholder_docstring(node: ast.FunctionDef) -> ast.FunctionDef:
+def add_placeholder_docstring(node: ast.FunctionDef) ->ast.FunctionDef:
     """Adds a placeholder docstring to a function node."""
-    placeholder = ast.Constant(value=
-        'TODO: Add a description for this function.')
-    node.body.insert(0, ast.Expr(value=placeholder))
+    result = PythonDocstringGenerator(node=node).run()
+    node.body.insert(0, ast.Expr(value=result['comment']))
     return node
 
 
@@ -35,7 +35,8 @@ def main():
     all_issues = []
     for root, dirs, files in os.walk('.'):
         for file in files:
-            if file.endswith('.py'):
+            if file.endswith('setup.py'):
+                print(f'Analyzing file {file}...')
                 filepath = os.path.join(root, file)
                 all_issues.extend(analyze_and_modify_file(filepath))
     with open('code_analysis_report.txt', 'w') as report:
