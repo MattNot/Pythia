@@ -10,9 +10,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph, MessagesState
 from langgraph.prebuilt import ToolNode
 from langchain_core.runnables import RunnableConfig
-
-
-INSTRUCTIONS = 'Write a python docstring, with params and returns, for the following function, DO NOT include ticks: '
+INSTRUCTIONS = 'Produce a python Google-style compliant docstring, with params and returns, for the following function, DO NOT include ticks and return only the docstring: '
 
 class PythonDocstringState(TypedDict):
     node: ast.FunctionDef

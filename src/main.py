@@ -35,7 +35,7 @@ def main():
     all_issues = []
     for root, dirs, files in os.walk('.'):
         for file in files:
-            if file.endswith('setup.py'):
+            if file.endswith('.py'):
                 print(f'Analyzing file {file}...')
                 filepath = os.path.join(root, file)
                 all_issues.extend(analyze_and_modify_file(filepath))
