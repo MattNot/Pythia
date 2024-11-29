@@ -12,6 +12,8 @@ from langgraph.prebuilt import ToolNode
 from langchain_core.runnables import RunnableConfig
 
 
+INSTRUCTIONS = 'Write a python docstring, with params and returns, for the following function, DO NOT include ticks: '
+
 class PythonDocstringState(TypedDict):
     node: ast.FunctionDef
     comment: ast.Constant
@@ -25,8 +27,7 @@ class PythonDocstringState(TypedDict):
 def generate_docstring(code: str):
     """Generates a docstring for a given Python code snippet."""
     llm = OpenAI()
-    res = llm.invoke(input=
-        'Write a docstring for the following function, DO NOT include ticks: ' + code).replace('"', "").replace("\n", "", 2)
+    res = llm.invoke(input=INSTRUCTIONS + code).replace('"', "").replace("\n", "", 1)
     return res
 
 
@@ -35,7 +36,11 @@ class PythonDocstringGenerator:
     node = ast.FunctionDef
 
     def insert_docstring(self, state: PythonDocstringState):
-       return {'comment': ast.Constant("\n"+(' ' * (state['node'].col_offset+4)) + state['messages'][-1].content + '\n')}
+        comment = state['messages'][-1].content
+        offset = state['node'].col_offset+4
+        # Insert space before each line of the comment
+        comment = '\n'.join([(' ' * offset) + line for line in comment.split('\n')])
+        return {'comment': ast.Constant(comment)}
 
     def start_node(self, state: PythonDocstringState):
         llm = ChatOpenAI()
@@ -56,6 +61,6 @@ class PythonDocstringGenerator:
 
     def run(self):
         result = self.graph.invoke({'node': self.node, 'messages': [
-            'Write a docstring for the following function, DO NOT include ticks: '
+            INSTRUCTIONS
              + astor.to_source(self.node)]})
         return result
